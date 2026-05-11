@@ -41,6 +41,7 @@
     "db:studio": "turbo -F @opensec/db db:studio",
     "db:generate": "turbo -F @opensec/db db:generate",
     "db:migrate": "turbo -F @opensec/db db:migrate",
+    "db:migrate:prod": "cd packages/db && drizzle-kit migrate --config=drizzle.production.config.ts",
     "check": "oxlint && oxfmt --write"
   },
   "dependencies": {

@@ -25,7 +25,7 @@ export default function UserMenu() {
   if (!session) {
     return (
       <Link href="/login">
-        <Button variant="outline">Sign In</Button>
+        <Button variant="outline">Sign in with GitHub</Button>
       </Link>
     );
   }
@@ -39,7 +39,7 @@ export default function UserMenu() {
         <DropdownMenuGroup>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>{session.user.email}</DropdownMenuItem>
+          <DropdownMenuItem>{session.user.email || "GitHub account"}</DropdownMenuItem>
           <DropdownMenuItem
             variant="destructive"
             onClick={() => {

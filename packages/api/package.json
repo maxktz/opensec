@@ -1,0 +1,29 @@
+{
+  "name": "@deepsec-me/api",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@deepsec-me/auth": "workspace:*",
+    "@deepsec-me/db": "workspace:*",
+    "@deepsec-me/env": "workspace:*",
+    "@orpc/client": "catalog:",
+    "@orpc/openapi": "catalog:",
+    "@orpc/server": "catalog:",
+    "@orpc/zod": "catalog:",
+    "dotenv": "catalog:",
+    "next": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@deepsec-me/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

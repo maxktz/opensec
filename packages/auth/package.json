@@ -1,0 +1,24 @@
+{
+  "name": "@deepsec-me/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@deepsec-me/db": "workspace:*",
+    "@deepsec-me/env": "workspace:*",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@deepsec-me/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

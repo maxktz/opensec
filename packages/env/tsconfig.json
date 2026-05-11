@@ -1,0 +1,3 @@
+{
+  "extends": "@deepsec-me/config/tsconfig.base.json"
+}

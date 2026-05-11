@@ -5,7 +5,17 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["dist/**", ".next/**"],
+      "env": [
+        "DATABASE_URL",
+        "NODE_ENV",
+        "BETTER_AUTH_URL",
+        "BETTER_AUTH_SECRET",
+        "CORS_ORIGIN",
+        "GITHUB_CLIENT_ID",
+        "GITHUB_CLIENT_SECRET",
+        "GITHUB_TOKEN"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
@@ -24,6 +34,10 @@
       "cache": false
     },
     "db:migrate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:migrate:prod": {
       "cache": false,
       "persistent": true
     },

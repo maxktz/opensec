@@ -55,11 +55,21 @@ export function RequestReviewForm() {
       ) : null}
 
       <div className="space-y-2">
-        <Label htmlFor="repoUrl">GitHub repository URL</Label>
+        <Label htmlFor="repoUrl">
+          GitHub repository URL
+          <span aria-hidden="true" className="text-destructive">
+            *
+          </span>
+        </Label>
         <Input id="repoUrl" name="repoUrl" placeholder="https://github.com/owner/repo" required />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="notes">Note for reviewer</Label>
+        <Label htmlFor="notes">
+          Note for reviewer
+          <span aria-hidden="true" className="text-destructive">
+            *
+          </span>
+        </Label>
         <textarea
           id="notes"
           name="notes"

@@ -22,6 +22,7 @@
       "name": "web",
       "version": "0.1.0",
       "dependencies": {
+        "@databuddy/sdk": "^2.4.11",
         "@opensec/api": "workspace:*",
         "@opensec/auth": "workspace:*",
         "@opensec/db": "workspace:*",
@@ -261,6 +262,8 @@
     "@better-auth/utils": ["@better-auth/utils@0.4.0", "https://registry.better-npm.dev/@better-auth/utils/-/utils-0.4.0.tgz", { "dependencies": { "@noble/hashes": "^2.0.1" } }, "sha512-RpMtLUIQAEWMgdPLNVbIF5ON2mm+CH0U3rCdUCU1VyeAUui4m38DyK7/aXMLZov2YDjG684pS1D0MBllrmgjQA=="],
 
     "@better-fetch/fetch": ["@better-fetch/fetch@1.1.21", "https://registry.better-npm.dev/@better-fetch/fetch/-/fetch-1.1.21.tgz", {}, "sha512-/ImESw0sskqlVR94jB+5+Pxjf+xBwDZF/N5+y2/q4EqD7IARUTSpPfIo8uf39SYpCxyOCtbyYpUrZ3F/k0zT4A=="],
+
+    "@databuddy/sdk": ["@databuddy/sdk@2.4.11", "", { "peerDependencies": { "react": ">=18", "vue": ">=3" }, "optionalPeers": ["react", "vue"] }, "sha512-pDT0tfsLOhuFnX0MHSOOt+qq9IPAB7rktuWclVgaRU3D6A6Mw7pN0oRttvPPKc3Ue7gUvq3kOtFkhmquLtmVQA=="],
 
     "@date-fns/tz": ["@date-fns/tz@1.4.1", "https://registry.better-npm.dev/@date-fns/tz/-/tz-1.4.1.tgz", {}, "sha512-P5LUNhtbj6YfI3iJjw5EL9eUAG6OitD0W3fWQcpQjDRc/QIsL0tRNuO1PcDvPccWL1fSTXXdE1ds+l95DV/OFA=="],
 

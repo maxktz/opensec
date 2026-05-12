@@ -120,7 +120,7 @@ export function LandingHero() {
             <span className="sm:whitespace-nowrap">Donate your spare AI usage</span>
             <br />
             <span className="text-muted-foreground sm:whitespace-nowrap">
-              for security of Open Source
+              for Open Source security
             </span>
           </h1>
 

@@ -19,3 +19,9 @@ export const HOTKEYS = {
   requestReview: "R",
   donateReview: "D",
 } as const;
+
+export const DONOR_MEDALS = [
+  { ring: "border-[#FFD700]", text: "text-[#FFD700]", label: "GOLD" },
+  { ring: "border-[#C0C0C0]", text: "text-[#C0C0C0]", label: "SILVER" },
+  { ring: "border-[#CD7F32]", text: "text-[#CD7F32]", label: "BRONZE" },
+] as const;

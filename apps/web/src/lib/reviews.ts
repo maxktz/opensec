@@ -4,6 +4,11 @@ import { count, desc, eq } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { unstable_cache } from "next/cache";
 
+import {
+  ensureGithubUsernameForUserId,
+  ensureGithubUsernamesForUserIds,
+} from "@/lib/github-usernames";
+
 const activeSubmission = alias(reviewRequestSubmission, "active_submission");
 const requester = alias(user, "requester");
 const donor = alias(user, "donor");
@@ -50,6 +55,7 @@ export async function getLandingData() {
       donorName: donor.name,
       donorImage: donor.image,
       provider: reviewReport.provider,
+      summaryPairs: reviewReport.summaryPairs,
       criticalCount: reviewReport.criticalCount,
       highCount: reviewReport.highCount,
       mediumCount: reviewReport.mediumCount,
@@ -86,7 +92,13 @@ export async function getTopDonors(limit?: number) {
     .groupBy(user.id, user.name, user.image)
     .orderBy(desc(count(reviewReport.id)));
 
-  return limit ? query.limit(limit) : query;
+  const donors = await (limit ? query.limit(limit) : query);
+  const usernames = await ensureGithubUsernamesForUserIds(donors.map((donor) => donor.id));
+
+  return donors.map((donor) => ({
+    ...donor,
+    githubUsername: usernames.get(donor.id) ?? null,
+  }));
 }
 
 export async function getPendingReviews() {
@@ -215,9 +227,9 @@ export async function getReviewDetailBySlug(slug: string) {
   };
 }
 
-export async function getUserProfile(id: string) {
+export async function getUserProfile(githubUsername: string) {
   const profile = await db.query.user.findFirst({
-    where: eq(user.id, id),
+    where: eq(user.githubUsername, githubUsername),
   });
 
   if (!profile) {
@@ -238,12 +250,12 @@ export async function getUserProfile(id: string) {
     })
     .from(reviewReport)
     .innerJoin(repository, eq(reviewReport.repositoryId, repository.id))
-    .where(eq(reviewReport.donorId, id))
+    .where(eq(reviewReport.donorId, profile.id))
     .orderBy(desc(reviewReport.createdAt));
 
   const requested = await db
     .select({
-      id: repository.id,
+      id: reviewRequestSubmission.id,
       repoSlug: repository.repoSlug,
       repoOwner: repository.repoOwner,
       repoName: repository.repoName,
@@ -253,8 +265,12 @@ export async function getUserProfile(id: string) {
     })
     .from(reviewRequestSubmission)
     .innerJoin(repository, eq(reviewRequestSubmission.repositoryId, repository.id))
-    .where(eq(reviewRequestSubmission.requesterId, id))
+    .where(eq(reviewRequestSubmission.requesterId, profile.id))
     .orderBy(desc(reviewRequestSubmission.createdAt));
 
   return { profile, donated, requested };
+}
+
+export async function getGithubUsernameForUserId(userId: string) {
+  return ensureGithubUsernameForUserId(userId);
 }

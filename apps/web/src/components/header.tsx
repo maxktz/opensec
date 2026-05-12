@@ -38,6 +38,9 @@ export default function Header({
   const currentTheme = resolvedTheme ?? theme;
   const { data: clientSession, isPending } = authClient.useSession();
   const session = isPending ? initialSession : clientSession;
+  const githubUsername = session?.user
+    ? (session.user as typeof session.user & { githubUsername?: string | null }).githubUsername
+    : null;
 
   useEffect(() => {
     setMounted(true);
@@ -151,10 +154,14 @@ export default function Header({
                     {session.user.email || "GitHub account"}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem render={<Link href={`/users/${session.user.id}`} />}>
-                    My profile
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
+                  {githubUsername ? (
+                    <>
+                      <DropdownMenuItem render={<Link href={`/users/${githubUsername}`} />}>
+                        My profile
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                    </>
+                  ) : null}
                   <DropdownMenuItem
                     variant="destructive"
                     onClick={() => {

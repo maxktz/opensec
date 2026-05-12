@@ -1,6 +1,6 @@
 {
-  "id": "6bb28a0c-6757-4ba5-bf94-8d508346dcdb",
-  "prevId": "bf8b0611-1d8b-47b1-a2c5-300b082af4e7",
+  "id": "43cd1b73-ab44-41a5-9f14-f9d3b4a791d3",
+  "prevId": "6bb28a0c-6757-4ba5-bf94-8d508346dcdb",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -632,6 +632,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "summary_pairs": {
+          "name": "summary_pairs",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
         },
         "critical_count": {
           "name": "critical_count",

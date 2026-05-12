@@ -26,16 +26,25 @@ export default async function DonorsPage() {
 
       <div className="grid gap-3 md:grid-cols-3">
         {donors.length ? (
-          donors.map((donor) => (
-            <Link key={donor.id} href={`/users/${donor.id}`}>
-              <Card className="transition-colors hover:bg-muted/50">
+          donors.map((donor) =>
+            donor.githubUsername ? (
+              <Link key={donor.id} href={`/users/${donor.githubUsername}`}>
+                <Card className="transition-colors hover:bg-muted/50">
+                  <CardHeader>
+                    <CardTitle>{donor.name}</CardTitle>
+                    <CardDescription>{donor.reviews} donated reviews</CardDescription>
+                  </CardHeader>
+                </Card>
+              </Link>
+            ) : (
+              <Card key={donor.id} className="transition-colors">
                 <CardHeader>
                   <CardTitle>{donor.name}</CardTitle>
                   <CardDescription>{donor.reviews} donated reviews</CardDescription>
                 </CardHeader>
               </Card>
-            </Link>
-          ))
+            ),
+          )
         ) : (
           <Card className="md:col-span-3">
             <CardHeader>

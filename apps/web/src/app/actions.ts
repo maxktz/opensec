@@ -20,6 +20,7 @@ import {
   fetchGithubRepoPermission,
   parseGithubRepoUrl,
 } from "@/lib/github";
+import { parseReportStats, parseReportSummaryPairs } from "@/lib/report-stats";
 
 const verificationPriority: Record<VerificationLevel, number> = {
   unverified: 0,
@@ -66,11 +67,6 @@ function getRequiredString(formData: FormData, key: string) {
 function getOptionalString(formData: FormData, key: string) {
   const value = formData.get(key);
   return typeof value === "string" && value.trim().length > 0 ? value.trim() : null;
-}
-
-function getCount(formData: FormData, key: string) {
-  const value = Number(formData.get(key) || 0);
-  return Number.isFinite(value) && value > 0 ? Math.floor(value) : 0;
 }
 
 export async function createReviewRequest(formData: FormData): Promise<FormActionResult> {
@@ -213,13 +209,10 @@ export async function submitReviewReport(formData: FormData): Promise<FormAction
     const providerValue = getRequiredString(formData, "provider");
     const provider =
       providerValue === "claude" || providerValue === "codex" ? providerValue : "other";
-    const modelName = getOptionalString(formData, "modelName");
-    const criticalCount = getCount(formData, "criticalCount");
-    const highCount = getCount(formData, "highCount");
-    const mediumCount = getCount(formData, "mediumCount");
-    const lowCount = getCount(formData, "lowCount");
-    const informationalCount = getCount(formData, "informationalCount");
-    const totalCount = criticalCount + highCount + mediumCount + lowCount + informationalCount;
+    const modelName = getRequiredString(formData, "modelName");
+    const summaryPairs = parseReportSummaryPairs(markdown);
+    const { criticalCount, highCount, mediumCount, lowCount, informationalCount, totalCount } =
+      parseReportStats(markdown);
 
     const repoRecord = await db.query.repository.findFirst({
       where: and(eq(repository.id, repositoryId), eq(repository.status, "pending")),
@@ -235,6 +228,7 @@ export async function submitReviewReport(formData: FormData): Promise<FormAction
       markdown,
       provider,
       modelName,
+      summaryPairs,
       criticalCount,
       highCount,
       mediumCount,

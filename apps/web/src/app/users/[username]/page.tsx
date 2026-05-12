@@ -12,14 +12,14 @@ import { notFound } from "next/navigation";
 import { getUserProfile } from "@/lib/reviews";
 
 type UserPageProps = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ username: string }>;
 };
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: UserPageProps): Promise<Metadata> {
-  const { id } = await params;
-  const data = await getUserProfile(id);
+  const { username } = await params;
+  const data = await getUserProfile(username);
 
   if (!data) {
     return {
@@ -31,14 +31,14 @@ export async function generateMetadata({ params }: UserPageProps): Promise<Metad
     title: data.profile.name || "OpenSec User",
     description: `${data.profile.name || "This user"} has donated ${data.donated.length} reviews and requested ${data.requested.length} reviews on OpenSec.`,
     alternates: {
-      canonical: `/users/${id}`,
+      canonical: `/users/${username}`,
     },
   };
 }
 
 export default async function UserPage({ params }: UserPageProps) {
-  const { id } = await params;
-  const data = await getUserProfile(id);
+  const { username } = await params;
+  const data = await getUserProfile(username);
 
   if (!data) {
     notFound();

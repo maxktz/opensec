@@ -1,6 +1,6 @@
 {
-  "id": "6bb28a0c-6757-4ba5-bf94-8d508346dcdb",
-  "prevId": "bf8b0611-1d8b-47b1-a2c5-300b082af4e7",
+  "id": "a8b4d29e-d2f3-4358-b3d4-6bee7fb18daf",
+  "prevId": "43cd1b73-ab44-41a5-9f14-f9d3b4a791d3",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -226,6 +226,12 @@
           "primaryKey": true,
           "notNull": true
         },
+        "github_username": {
+          "name": "github_username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "name": {
           "name": "name",
           "type": "text",
@@ -270,6 +276,11 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "user_github_username_unique": {
+          "name": "user_github_username_unique",
+          "nullsNotDistinct": false,
+          "columns": ["github_username"]
+        },
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
@@ -632,6 +643,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "summary_pairs": {
+          "name": "summary_pairs",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
         },
         "critical_count": {
           "name": "critical_count",

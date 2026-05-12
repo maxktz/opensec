@@ -45,13 +45,13 @@ export function DonateReviewDialog({ repositoryId, repoUrl }: DonateReviewDialog
 
   return (
     <Dialog>
-      <DialogTrigger render={<Button size="lg" />}>Donate a review</DialogTrigger>
+      <DialogTrigger render={<Button size="lg" />}>Submit an audit</DialogTrigger>
       <DialogContent className="max-h-[90svh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>Submit a review</DialogTitle>
           <DialogDescription>
             Run your preferred security review workflow, then paste the final Markdown report. The
-            full report stays private.
+            full report stays private. Severity totals are parsed automatically when possible.
           </DialogDescription>
         </DialogHeader>
 
@@ -93,42 +93,7 @@ export function DonateReviewDialog({ repositoryId, repoUrl }: DonateReviewDialog
             </div>
             <div className="space-y-2">
               <Label htmlFor="modelName">Model name</Label>
-              <Input id="modelName" name="modelName" placeholder="Opus 4.5, GPT-5.5..." />
-            </div>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-5">
-            <div className="space-y-2">
-              <Label htmlFor="criticalCount">Critical</Label>
-              <Input
-                id="criticalCount"
-                name="criticalCount"
-                type="number"
-                min="0"
-                defaultValue="0"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="highCount">High</Label>
-              <Input id="highCount" name="highCount" type="number" min="0" defaultValue="0" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="mediumCount">Medium</Label>
-              <Input id="mediumCount" name="mediumCount" type="number" min="0" defaultValue="0" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="lowCount">Low</Label>
-              <Input id="lowCount" name="lowCount" type="number" min="0" defaultValue="0" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="informationalCount">Info</Label>
-              <Input
-                id="informationalCount"
-                name="informationalCount"
-                type="number"
-                min="0"
-                defaultValue="0"
-              />
+              <Input id="modelName" name="modelName" placeholder="Opus 4.5, GPT-5.5..." required />
             </div>
           </div>
 
@@ -138,6 +103,18 @@ export function DonateReviewDialog({ repositoryId, repoUrl }: DonateReviewDialog
               id="markdown"
               name="markdown"
               className="min-h-80 w-full border bg-transparent p-3 font-mono text-xs outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              placeholder={`# Vulnerability Scan Report
+
+| Field | Value |
+|-------|-------|
+| Total findings | 25 |
+
+## Summary
+
+| Severity | Count |
+|----------|-------|
+| HIGH | 1 |
+| MEDIUM | 14 |`}
               required
             />
           </div>

@@ -32,6 +32,11 @@ export type LocLanguageStats = {
 
 export type LocByLanguage = Record<string, LocLanguageStats>;
 
+export type ReviewSummaryPair = {
+  label: string;
+  count: number;
+};
+
 export const repository = pgTable("repository", {
   id: uuid("id").primaryKey().defaultRandom(),
   repoUrl: text("repo_url").notNull().unique(),
@@ -127,6 +132,7 @@ export const reviewReport = pgTable(
     markdown: text("markdown").notNull(),
     provider: text("provider", { enum: ["claude", "codex", "other"] }).notNull(),
     modelName: text("model_name"),
+    summaryPairs: jsonb("summary_pairs").$type<ReviewSummaryPair[]>().default([]).notNull(),
     criticalCount: integer("critical_count").default(0).notNull(),
     highCount: integer("high_count").default(0).notNull(),
     mediumCount: integer("medium_count").default(0).notNull(),

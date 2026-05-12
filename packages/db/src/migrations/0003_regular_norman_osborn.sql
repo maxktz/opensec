@@ -1,0 +1,1 @@
+ALTER TABLE "review_report" ADD COLUMN "summary_pairs" jsonb DEFAULT '[]'::jsonb NOT NULL;

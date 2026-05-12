@@ -15,7 +15,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { DonateReviewDialog } from "@/components/donate-review-dialog";
-import { getReviewDetailBySlug } from "@/lib/reviews";
+import { getGithubUsernameForUserId, getReviewDetailBySlug } from "@/lib/reviews";
 
 type ReviewDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -57,6 +57,7 @@ function SeverityGrid({
   report,
 }: {
   report: {
+    summaryPairs: Array<{ label: string; count: number }>;
     criticalCount: number;
     highCount: number;
     mediumCount: number;
@@ -65,17 +66,22 @@ function SeverityGrid({
     totalCount: number;
   };
 }) {
+  const summaryPairs = report.summaryPairs.length
+    ? report.summaryPairs
+    : [
+        { label: "CRITICAL", count: report.criticalCount },
+        { label: "HIGH", count: report.highCount },
+        { label: "MEDIUM", count: report.mediumCount },
+        { label: "LOW", count: report.lowCount },
+        { label: "INFORMATIONAL", count: report.informationalCount },
+      ].filter((pair) => pair.count > 0);
   const items = [
-    ["Total", report.totalCount],
-    ["Critical", report.criticalCount],
-    ["High", report.highCount],
-    ["Medium", report.mediumCount],
-    ["Low", report.lowCount],
-    ["Info", report.informationalCount],
+    ["Total findings", report.totalCount],
+    ...summaryPairs.map((pair) => [pair.label, pair.count]),
   ] as const;
 
   return (
-    <div className="grid grid-cols-2 gap-2 sm:grid-cols-6">
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
       {items.map(([label, value]) => (
         <div key={label} className="border p-3">
           <p className="text-lg font-semibold">{value}</p>
@@ -135,6 +141,7 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
   }
 
   const { request, report, submissions } = detail;
+  const donorUsername = report ? await getGithubUsernameForUserId(report.donorId) : null;
   const canViewReport = Boolean(
     report && session?.user && [request.requesterId, report.donorId].includes(session.user.id),
   );
@@ -181,11 +188,11 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
           ) : null}
           {!report && !session?.user ? (
             <Link className={buttonVariants()} href="/login">
-              Sign in to submit a review
+              Sign in to submit an audit
             </Link>
           ) : null}
           <Link className={buttonVariants({ variant: "outline" })} href="/repos">
-            Back to repositories
+            Back to repos
           </Link>
         </div>
       </section>
@@ -342,9 +349,13 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
             <CardTitle>Review summary</CardTitle>
             <CardDescription>
               Donated by{" "}
-              <Link className="underline" href={`/users/${report.donorId}`}>
-                {report.donorName}
-              </Link>
+              {donorUsername ? (
+                <Link className="underline" href={`/users/${donorUsername}`}>
+                  {report.donorName}
+                </Link>
+              ) : (
+                report.donorName
+              )}
               {" using "}
               {report.modelName || report.provider}
             </CardDescription>

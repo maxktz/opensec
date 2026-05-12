@@ -9,6 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@databuddy/sdk": "^2.4.11",
     "@opensec/api": "workspace:*",
     "@opensec/auth": "workspace:*",
     "@opensec/db": "workspace:*",

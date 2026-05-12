@@ -1,3 +1,4 @@
+import { Databuddy } from "@databuddy/sdk/react";
 import type { Metadata } from "next";
 import { GeistPixelLine } from "geist/font/pixel";
 import { Geist, Geist_Mono, Silkscreen } from "next/font/google";
@@ -85,6 +86,10 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${geistPixelLine.variable} ${silkscreen.variable} antialiased`}
       >
+        <Databuddy
+          clientId="5f523052-bdcd-49da-b8bb-c177190257b3"
+          trackErrors
+        />
         <Providers>
           <div className="flex min-h-screen flex-col overflow-x-clip bg-background">
             <Header />

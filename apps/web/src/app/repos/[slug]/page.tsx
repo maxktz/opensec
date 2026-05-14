@@ -185,7 +185,11 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
         </div>
         <div className="flex flex-wrap justify-end gap-2">
           {!report && session?.user ? (
-            <DonateReviewDialog repositoryId={request.id} repoUrl={request.repoUrl} />
+            <DonateReviewDialog
+              repositoryId={request.id}
+              repoName={request.repoName}
+              repoUrl={request.repoUrl}
+            />
           ) : null}
           {!report && !session?.user ? (
             <Link className={buttonVariants()} href="/login">

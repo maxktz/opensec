@@ -14,6 +14,7 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CopyMarkdownButton } from "@/components/copy-markdown-button";
 import { DonateReviewDialog } from "@/components/donate-review-dialog";
 import { getGithubUsernameForUserId, getReviewDetailBySlug } from "@/lib/reviews";
 
@@ -363,8 +364,10 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
           <CardContent className="space-y-5">
             <SeverityGrid report={report} />
             {canViewReport ? (
-              <div className="space-y-2">
-                <h2 className="font-medium">Private Markdown report</h2>
+              <div className="relative">
+                <div className="absolute top-2 right-5 z-10">
+                  <CopyMarkdownButton markdown={report.markdown} />
+                </div>
                 <pre className="max-h-[600px] overflow-auto whitespace-pre-wrap border bg-muted/30 p-4 text-xs leading-6">
                   {report.markdown}
                 </pre>

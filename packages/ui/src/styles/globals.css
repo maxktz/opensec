@@ -133,5 +133,6 @@
   html {
     @apply font-mono;
     overflow-x: clip;
+    scrollbar-gutter: stable;
   }
 }

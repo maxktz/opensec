@@ -7,6 +7,7 @@ import {
 } from "@opensec/ui/components/card";
 import { Badge } from "@opensec/ui/components/badge";
 import { Star } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 type ReviewCardProps = {
@@ -80,8 +81,13 @@ export function ReviewCard({
           <div className="flex items-start justify-between gap-3">
             <div className="flex min-w-0 items-start gap-3">
               {ghOwnerAvatarUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img alt="" className="size-9 border" src={ghOwnerAvatarUrl} />
+                <Image
+                  alt={`${repoOwner} avatar`}
+                  className="size-9 border"
+                  src={ghOwnerAvatarUrl}
+                  width={36}
+                  height={36}
+                />
               ) : null}
               <div className="min-w-0">
                 <CardTitle className="truncate">

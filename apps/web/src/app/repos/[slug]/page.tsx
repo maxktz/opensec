@@ -11,6 +11,7 @@ import {
 import { Star } from "lucide-react";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -152,8 +153,13 @@ export default async function ReviewDetailPage({ params }: ReviewDetailPageProps
       <section className="grid gap-4 md:grid-cols-[1fr_auto] md:items-start">
         <div className="flex items-start gap-4">
           {request.ghOwnerAvatarUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img alt="" className="size-16 border" src={request.ghOwnerAvatarUrl} />
+            <Image
+              alt={`${request.repoOwner} avatar`}
+              className="size-16 border"
+              src={request.ghOwnerAvatarUrl}
+              width={64}
+              height={64}
+            />
           ) : null}
           <div>
             <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">

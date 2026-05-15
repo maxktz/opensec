@@ -12,6 +12,7 @@ import {
 } from "@opensec/ui/components/dropdown-menu";
 import { Github, Menu, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -141,8 +142,13 @@ export default function Header({
                 }
               >
                 {session.user.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img alt="" className="size-5 border border-border" src={session.user.image} />
+                  <Image
+                    alt={`${session.user.name || "Account"} avatar`}
+                    className="size-5 border border-border"
+                    src={session.user.image}
+                    width={20}
+                    height={20}
+                  />
                 ) : null}
                 <span className="hidden max-w-32 truncate sm:inline">
                   {session.user.name || "Account"}

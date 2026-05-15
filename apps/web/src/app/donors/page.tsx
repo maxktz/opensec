@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import { DONOR_MEDALS } from "@/lib/consts";
@@ -54,10 +55,11 @@ export default async function DonorsPage() {
 
                   <div className="flex items-center gap-3 min-w-0">
                     {donor.image ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
+                      <Image
                         alt={donor.name ? `${donor.name}'s avatar` : "Donor avatar"}
                         src={donor.image}
+                        width={36}
+                        height={36}
                         className={`size-9 shrink-0 ${avatarRing}`}
                       />
                     ) : (

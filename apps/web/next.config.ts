@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: new URL("../..", import.meta.url).pathname,
   },
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "avatars.githubusercontent.com" }],
+  },
 };
 
 export default nextConfig;

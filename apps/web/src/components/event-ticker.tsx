@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { getCachedLandingData } from "@/lib/reviews";
 
 function toDate(value: Date | string | null | undefined) {
@@ -32,7 +34,15 @@ function formatRelativeTime(value: Date | null) {
 
 function Avatar({ image, label }: { image?: string | null; label: string }) {
   if (image) {
-    return <img alt="" className="size-5 border border-border" src={image} />;
+    return (
+      <Image
+        alt={`${label} avatar`}
+        className="size-5 border border-border"
+        src={image}
+        width={20}
+        height={20}
+      />
+    );
   }
 
   return (

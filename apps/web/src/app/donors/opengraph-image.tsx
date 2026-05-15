@@ -19,7 +19,8 @@ async function loadGoogleFont(family: string, weight: number): Promise<ArrayBuff
     `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}`,
     { headers: { "User-Agent": "Mozilla/5.0" } },
   ).then((r) => r.text());
-  const url = css.match(/url\((https:\/\/[^)]+)\)/)?.[1];
+  const latinMatch = css.match(/\/\* latin \*\/[\s\S]*?url\((https:\/\/[^)]+)\)/);
+  const url = latinMatch?.[1] ?? css.match(/url\((https:\/\/[^)]+)\)/)?.[1];
   if (!url) throw new Error(`Failed to resolve ${family} font URL`);
   return fetch(url).then((r) => r.arrayBuffer());
 }
@@ -29,7 +30,7 @@ export default async function Image() {
     getTopDonors(3),
     loadGoogleFont("Geist Mono", 400),
     loadGoogleFont("Geist Mono", 700),
-    loadGoogleFont("Silkscreen", 700),
+    loadGoogleFont("Silkscreen", 400),
   ]);
   const donors = allDonors.slice(0, 3);
 
@@ -71,7 +72,7 @@ export default async function Image() {
               style={{
                 display: "flex",
                 fontFamily: "Silkscreen",
-                fontWeight: 700,
+                fontWeight: 400,
                 fontSize: 28,
                 letterSpacing: "0.06em",
                 color: "#ffffff",
@@ -258,7 +259,7 @@ export default async function Image() {
       fonts: [
         { name: "Geist Mono", data: geistRegular, style: "normal", weight: 400 },
         { name: "Geist Mono", data: geistBold, style: "normal", weight: 700 },
-        { name: "Silkscreen", data: silkscreen, style: "normal", weight: 700 },
+        { name: "Silkscreen", data: silkscreen, style: "normal", weight: 400 },
       ],
     },
   );

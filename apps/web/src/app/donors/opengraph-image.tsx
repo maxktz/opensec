@@ -14,8 +14,24 @@ const MEDALS = [
   { ring: "#CD7F32", text: "#CD7F32" },
 ] as const;
 
+async function loadGoogleFont(family: string, weight: number): Promise<ArrayBuffer> {
+  const css = await fetch(
+    `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}`,
+    { headers: { "User-Agent": "Mozilla/5.0" } },
+  ).then((r) => r.text());
+  const url = css.match(/url\((https:\/\/[^)]+)\)/)?.[1];
+  if (!url) throw new Error(`Failed to resolve ${family} font URL`);
+  return fetch(url).then((r) => r.arrayBuffer());
+}
+
 export default async function Image() {
-  const donors = (await getTopDonors(3)).slice(0, 3);
+  const [allDonors, geistRegular, geistBold, silkscreen] = await Promise.all([
+    getTopDonors(3),
+    loadGoogleFont("Geist Mono", 400),
+    loadGoogleFont("Geist Mono", 700),
+    loadGoogleFont("Silkscreen", 700),
+  ]);
+  const donors = allDonors.slice(0, 3);
 
   return new ImageResponse(
     (
@@ -25,7 +41,7 @@ export default async function Image() {
           height: "100%",
           background: "#000000",
           color: "#ffffff",
-          fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+          fontFamily: "Geist Mono",
           padding: "56px 64px",
           display: "flex",
           flexDirection: "column",
@@ -47,16 +63,22 @@ export default async function Image() {
               People donating spare AI usage to open source security reviews.
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 18,
-              color: "#9a9a9a",
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-            }}
-          >
-            opensec.sh
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <span style={{ display: "flex", fontSize: 28, color: "#6b6b6b", marginRight: 14 }}>
+              {">"}
+            </span>
+            <span
+              style={{
+                display: "flex",
+                fontFamily: "Silkscreen",
+                fontWeight: 700,
+                fontSize: 28,
+                letterSpacing: "0.06em",
+                color: "#ffffff",
+              }}
+            >
+              opensec.sh
+            </span>
           </div>
         </div>
 
@@ -231,6 +253,13 @@ export default async function Image() {
         </div>
       </div>
     ),
-    { ...size },
+    {
+      ...size,
+      fonts: [
+        { name: "Geist Mono", data: geistRegular, style: "normal", weight: 400 },
+        { name: "Geist Mono", data: geistBold, style: "normal", weight: 700 },
+        { name: "Silkscreen", data: silkscreen, style: "normal", weight: 700 },
+      ],
+    },
   );
 }

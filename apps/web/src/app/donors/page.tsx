@@ -56,7 +56,7 @@ export default async function DonorsPage() {
                     {donor.image ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
-                        alt=""
+                        alt={donor.name ? `${donor.name}'s avatar` : "Donor avatar"}
                         src={donor.image}
                         className={`size-9 shrink-0 ${avatarRing}`}
                       />

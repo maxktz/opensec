@@ -58,6 +58,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@maxktz",
+    creator: "@maxktz",
     title: "OpenSec - Donated Security Reviews for Open Source",
     description:
       "Request private security reviews for public GitHub repositories, or donate spare AI usage to help secure open source projects.",

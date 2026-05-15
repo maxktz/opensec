@@ -1,6 +1,6 @@
 export const SITE_LINKS = {
   github: "https://github.com/maxktz/opensec",
-  author: "https://x.com/maxk4tz",
+  author: "https://x.com/maxktz",
 } as const;
 
 export const APP_ROUTES = {
